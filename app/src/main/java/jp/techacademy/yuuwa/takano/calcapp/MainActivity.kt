@@ -36,23 +36,27 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(v: View) {
         val intent = Intent(this, Calc1::class.java)
+            try {
+                val f = findViewById<EditText>(R.id.first)
+                val num1 = f?.text.toString().toFloat()
+                val s = findViewById<EditText>(R.id.second)
+                val num2 = s?.text.toString().toFloat()
+                var num5: Float = 0.0f
+                when (v.id) {
+                    R.id.tasu -> num5 = num1 + num2
+                    R.id.hiku -> num5 = num1 - num2
+                    R.id.kake -> num5 = num1 * num2
+                    R.id.wari -> num5 = num1 / num2
+                }
 
-        if(first.length() != 0 && second.length() != 0) {
-            val f = findViewById<EditText>(R.id.first)
-            val num1 = f?.text.toString()
-            val num3 = num1.toFloat()
-            val s = findViewById<EditText>(R.id.second)
-            val num2 = s?.text.toString()
-            val num4 = num2.toFloat()
-            var num5: Float = 0.0.toFloat()
-            when (v.id) {
-                R.id.tasu -> num5 = num3 + num4
-                R.id.hiku -> num5 = num3 - num4
-                R.id.kake -> num5 = num3 * num4
-                R.id.wari -> num5 = num3 + num4
+                intent.putExtra("VALUE1", num5)
+                startActivity(intent)
+
+            } catch (e: NumberFormatException) {
+                Snackbar.make(v, "数値入力してください。", Snackbar.LENGTH_INDEFINITE)
+                    .setAction("Action") {
+                        Log.d("UI_PARTS", "Snackbarをタップした")
+                    }.show()
             }
-            intent.putExtra("VALUE1", num5)
-            startActivity(intent)
+            }
         }
-    }
-}
